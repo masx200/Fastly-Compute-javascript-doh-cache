@@ -5,6 +5,7 @@ allowDynamicBackends(true);
 import { includeBytes } from "fastly:experimental";
 import { Strict_Transport_Security } from "./FastlyComputeMiddleware";
 import { getDOH_ENDPOINT } from "./getDOH_ENDPOINT";
+import { base64Encode } from "./base64Encode";
 
 // import * as cachecontrol from "@tusbar/cache-control";
 // import { env } from "fastly:env";
@@ -129,19 +130,6 @@ export async function handlerLogger(
     ),
   );
   return response;
-}
-export function base64Encode(byteArray: ArrayBuffer): string {
-  const buffer = new Uint8Array(byteArray);
-  const binaryString = buffer.reduce(
-    (str, byte) => str + String.fromCharCode(byte),
-    "",
-  );
-  const encoded = btoa(binaryString)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=/g, "");
-
-  return encoded;
 }
 const welcome = includeBytes("src/welcome.html");
 async function fetchMiddleWare(
