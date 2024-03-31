@@ -25,4 +25,6 @@ security-related issues.
 
 # 在控制台的里面添加源站
 
+设置源站的名称为上游服务器的域名
+
 设置网站的Certificate hostname,SNI hostname,Override host为上游服务器的域名
