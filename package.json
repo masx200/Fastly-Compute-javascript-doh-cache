@@ -1,24 +1,24 @@
 {
-    "dependencies": {
-        "@fastly/js-compute": "^3.2.0",
-        "@tusbar/cache-control": "^0.6.0"
-    },
-    "name": "@masx200/fastly-compute-hello-world-javascript",
-    "scripts": {
-        "dev": "fastly compute serve",
-        "prebuild": "tsc",
-        "build": "js-compute-runtime  ./build/index.js  ./bin/main.wasm",
-        "deploy": "fastly compute publish"
-    },
-    "type": "module",
-    "devDependencies": {
-        "typescript": "^5.2.2"
-    },
-    "description": "[![Deploy to Fastly](https://deploy.edgecompute.app/button)](https://deploy.edgecompute.app/deploy)",
-    "version": "1.0.0",
-    "main": "./src/index.ts",
-    "keywords": [],
-    "author": "masx200 <34191203+masx200@users.noreply.github.com>",
-    "license": "ISC",
-    "repository": "https://gitee.com/masx200/Fastly-Compute-hello-world-javascript.git"
+  "dependencies": {
+    "@fastly/js-compute": "^3.2.0",
+    "@tusbar/cache-control": "^0.6.0"
+  },
+  "name": "@masx200/fastly-compute-hello-world-javascript",
+  "scripts": {
+    "dev": "fastly compute serve",
+    "prebuild": "tsc",
+    "build": "js-compute-runtime  ./build/index.js  ./bin/main.wasm",
+    "deploy": "fastly compute publish"
+  },
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "description": "[![Deploy to Fastly](https://deploy.edgecompute.app/button)](https://deploy.edgecompute.app/deploy)",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "keywords": [],
+  "author": "masx200 <34191203+masx200@users.noreply.github.com>",
+  "license": "ISC",
+  "repository": "https://gitee.com/masx200/Fastly-Compute-hello-world-javascript.git"
 }
