@@ -1,0 +1,23 @@
+on: pull_request
+name: Test
+jobs:
+  test:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Setup Fastly CLI
+        uses: fastly/compute-actions/setup@v5
+      - name: Install Dependencies
+        run: npm install
+      - name: Build Compute Package
+        uses: fastly/compute-actions/build@v5
+        with:
+          verbose: true
