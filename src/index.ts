@@ -218,7 +218,7 @@ async function handleGet(
 
   if (upurl.searchParams.get("dns")?.length) {
     return await fetch(getRequest, {
-      cacheOverride: new CacheOverride("none"),
+      // cacheOverride: new CacheOverride("none"),
       backend: upurl.hostname,
       // cf: {
       //   cacheEverything: true,
