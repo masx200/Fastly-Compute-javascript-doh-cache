@@ -175,25 +175,26 @@ async function fetchMiddleWare(
   if (request.method !== "GET") {
     return new Response("method not allowed", { status: 405 });
   }
-  return handleGet(env, url, request);
+  return handleGet(env, request);
 }
 
 async function handleGet(
   client: { address: string },
-  url: URL,
+  // url: URL,
   request: Request,
 ): Promise<Response> {
+  const nextUrl = new URL(request.url);
   const upurl = new URL(`${
     await getDOH_ENDPOINT() ??
       "https://doh.pub/dns-query"
   }`);
-  upurl.search = url.search;
+  upurl.search = nextUrl.search;
   const headers = new Headers(request.headers);
   headers.append(
     "Forwarded",
-    `proto=${new URL(url).protocol.slice(0, -1)};host=${
-      new URL(url).hostname
-    };by=${url.host};for=${client.address}`,
+    `proto=${new URL(nextUrl).protocol.slice(0, -1)};host=${
+      new URL(nextUrl).hostname
+    };by=${nextUrl.host};for=${client.address}`,
   );
   const getRequest = new Request(upurl.href, {
     method: "GET",
@@ -215,7 +216,7 @@ async function handleGet(
   );
   // Fetch response from origin server.
 
-  if (url.searchParams.get("dns")?.length) {
+  if (upurl.searchParams.get("dns")?.length) {
     return await fetch(getRequest, {
       cacheOverride: new CacheOverride("none"),
       backend: upurl.hostname,
