@@ -12,9 +12,9 @@ service_id = "87FS0CBmiykQ0wxny69DZ2"
 build = "npm run build"
 post_init = "npm install"
 
-[local_server.backends.origin_0]
-      url = "https://http-me.glitch.me/"
+# [local_server.backends.origin_0]
+#       url = "https://http-me.glitch.me/"
 
-[setup.backends.origin_0]
-address = "http-me.glitch.me"
-port = 443
+# [setup.backends.origin_0]
+# address = "http-me.glitch.me"
+# port = 443
