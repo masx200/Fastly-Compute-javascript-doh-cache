@@ -5,8 +5,8 @@ authors = ["<oss@fastly.com>"]
 description = ""
 language = "javascript"
 manifest_version = 3
-name = "Enable modern web security headers to all responses"
-service_id = "87FS0CBmiykQ0wxny69DZ2"
+name = "fastly-compute-javascript-doh-cache"
+service_id = "87FS0CBmiykQ0wxny70DZ2"
 
 [scripts]
 build = "npm run build"

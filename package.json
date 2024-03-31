@@ -3,7 +3,7 @@
     "@fastly/js-compute": "^3.2.0",
     "@tusbar/cache-control": "^0.6.0"
   },
-  "name": "@masx200/fastly-compute-hello-world-javascript",
+  "name": "@masx200/fastly-compute-javascript-doh-cache",
   "scripts": {
     "dev": "fastly compute serve",
     "prebuild": "tsc",
