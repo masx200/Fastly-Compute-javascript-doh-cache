@@ -1,3 +1,4 @@
+/// <reference types="@fastly/js-compute" />
 // import * as cachecontrol from "@tusbar/cache-control";
 // import { env } from "fastly:env";
 //const welcomePage = includeBytes("./src/welcome-to-compute.html");
@@ -50,7 +51,10 @@ addEventListener(
   //@ts-ignore
   (event: FetchEvent) => event.respondWith(handler(event)),
 );
-export function handlerMain(req: Request, client: any): Response {
+export function handlerMain(
+  req: Request,
+  client: { address: string },
+): Response {
   const { url, headers, method } = req;
   const response_headers = {
     "Strict-Transport-Security": "max-age=31536000",

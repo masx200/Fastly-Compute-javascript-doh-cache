@@ -2,3 +2,4 @@
 /bin
 /pkg
 build/index.js
+.vscode/settings.json
