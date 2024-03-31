@@ -5,7 +5,8 @@
 async function handler(event: FetchEvent) {
   // Get the request from the client.
   const req = event.request;
-
+  //@ts-ignore
+  const { client: { address } } = event;
   // Set the host header for backend access
   // Not needed if Overide host configuration of backend is set
   // req.headers.set("Host", "httpbin.org");
@@ -38,7 +39,7 @@ async function handler(event: FetchEvent) {
   // if (cacheControlObj["maxAge"] != null) {
   //   beresp.headers.delete("expires");
   // }
-  const beresp = handlerMain(req);
+  const beresp = handlerMain(req, { address });
   beresp.headers.append(`Alt-Svc`, `h2=":443"; ma=188600`);
   beresp.headers.append(`Alt-Svc`, `h3=":443"; ma=188600`);
   return beresp;
@@ -49,7 +50,7 @@ addEventListener(
   //@ts-ignore
   (event: FetchEvent) => event.respondWith(handler(event)),
 );
-export function handlerMain(req: Request): Response {
+export function handlerMain(req: Request, client: any): Response {
   const { url, headers, method } = req;
   const response_headers = {
     "Strict-Transport-Security": "max-age=31536000",
@@ -57,6 +58,7 @@ export function handlerMain(req: Request): Response {
   };
   const status = 200;
   const data = {
+    client,
     // connInfo,
     request: {
       url,
@@ -81,6 +83,7 @@ export function handlerMain(req: Request): Response {
   console.log(
     JSON.stringify(
       {
+        client,
         // connInfo,
         request: { url, method, headers: Object.fromEntries(headers) },
         // response: {
