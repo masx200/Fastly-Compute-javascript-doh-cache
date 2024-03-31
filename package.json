@@ -5,6 +5,7 @@
     },
     "name": "@masx200/fastly-compute-hello-world-javascript",
     "scripts": {
+        "dev": "fastly compute serve",
         "prebuild": "tsc",
         "build": "js-compute-runtime  ./build/index.js  ./bin/main.wasm",
         "deploy": "fastly compute publish"
