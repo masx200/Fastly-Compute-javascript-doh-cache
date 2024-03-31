@@ -1,3 +1,5 @@
+import { allowDynamicBackends } from "fastly:experimental";
+allowDynamicBackends(true);
 /// <reference types="@fastly/js-compute" />
 
 import { includeBytes } from "fastly:experimental";
@@ -9,50 +11,55 @@ import { getDOH_ENDPOINT } from "./getDOH_ENDPOINT";
 //const welcomePage = includeBytes("./src/welcome-to-compute.html");
 // import { includeBytes } from "fastly:experimental";
 async function handler(event: FetchEvent) {
-  // Get the request from the client.
-  const req = event.request;
-  //@ts-ignore
-  const { client: { address } } = event;
-  // Set the host header for backend access
-  // Not needed if Overide host configuration of backend is set
-  // req.headers.set("Host", "httpbin.org");
+  try {
+    const req = event.request;
+    //@ts-ignore
+    const { client: { address } } = event;
+    // Set the host header for backend access
+    // Not needed if Overide host configuration of backend is set
+    // req.headers.set("Host", "httpbin.org");
 
-  // let isDebug = req.headers.has("Fastly-Debug");
+    // let isDebug = req.headers.has("Fastly-Debug");
 
-  // const beresp = await fetch(req, {
-  //   backend: "origin_0",
-  // });
+    // const beresp = await fetch(req, {
+    //   backend: "origin_0",
+    // });
 
-  // Add headers to the response back to the browser
-  // beresp.headers.set("content-security-policy", "default-src 'self'");
-  // beresp.headers.set("x-frame-options", "SAMEORIGIN");
-  // beresp.headers.set("x-xss-protection", "1");
-  // beresp.headers.set("x-content-type-options", "nosniff");
-  // beresp.headers.set("referrer-policy", "origin-when-cross-origin");
+    // Add headers to the response back to the browser
+    // beresp.headers.set("content-security-policy", "default-src 'self'");
+    // beresp.headers.set("x-frame-options", "SAMEORIGIN");
+    // beresp.headers.set("x-xss-protection", "1");
+    // beresp.headers.set("x-content-type-options", "nosniff");
+    // beresp.headers.set("referrer-policy", "origin-when-cross-origin");
 
-  // Remove headers from the response before sending it back to the browser
-  // if (!isDebug) {
-  //   beresp.headers.delete("server");
-  //   beresp.headers.delete("x-powered-by");
-  //   beresp.headers.delete("via");
-  //   beresp.headers.delete("x-served-by");
-  //   beresp.headers.delete("x-cache");
-  //   beresp.headers.delete("x-cache-hits");
-  //   beresp.headers.delete("x-timer");
-  // }
+    // Remove headers from the response before sending it back to the browser
+    // if (!isDebug) {
+    //   beresp.headers.delete("server");
+    //   beresp.headers.delete("x-powered-by");
+    //   beresp.headers.delete("via");
+    //   beresp.headers.delete("x-served-by");
+    //   beresp.headers.delete("x-cache");
+    //   beresp.headers.delete("x-cache-hits");
+    //   beresp.headers.delete("x-timer");
+    // }
 
-  // let cacheControlObj = cachecontrol.parse(beresp.headers.get("cache-control"));
-  // if (cacheControlObj["maxAge"] != null) {
-  //   beresp.headers.delete("expires");
-  // }
-  const beresp = await handlerLogger(req, { address }, async () => {
-    return Strict_Transport_Security(req, { address }, async () => {
-      return fetchMiddleWare(req, { address });
+    // let cacheControlObj = cachecontrol.parse(beresp.headers.get("cache-control"));
+    // if (cacheControlObj["maxAge"] != null) {
+    //   beresp.headers.delete("expires");
+    // }
+    const beresp = await handlerLogger(req, { address }, async () => {
+      return Strict_Transport_Security(req, { address }, async () => {
+        return fetchMiddleWare(req, { address });
+      });
     });
-  });
-  beresp.headers.append(`Alt-Svc`, `h2=":443"; ma=188600`);
-  beresp.headers.append(`Alt-Svc`, `h3=":443"; ma=188600`);
-  return beresp;
+    beresp.headers.append(`Alt-Svc`, `h2=":443"; ma=188600`);
+    beresp.headers.append(`Alt-Svc`, `h3=":443"; ma=188600`);
+    return beresp;
+  } catch (error) {
+    console.error(error);
+    return new Response(String(error), { status: 500 });
+  }
+  // Get the request from the client.
 }
 
 addEventListener(
@@ -84,6 +91,21 @@ export async function handlerLogger(
 
   // const body = JSON.stringify(data);
   // console.log("request", data);
+  console.log(
+    JSON.stringify(
+      {
+        client,
+        // connInfo,
+        request: { url, method, headers: Object.fromEntries(headers) },
+        // response: {
+        //     status: response.status,
+        //     headers: Object.fromEntries(response.headers),
+        // },
+      },
+      null,
+      4,
+    ),
+  );
   const response = await next();
   response.headers.append(
     "strict-transport-security",
@@ -97,10 +119,10 @@ export async function handlerLogger(
         client,
         // connInfo,
         request: { url, method, headers: Object.fromEntries(headers) },
-        // response: {
-        //     status: response.status,
-        //     headers: Object.fromEntries(response.headers),
-        // },
+        response: {
+          status: response.status,
+          headers: Object.fromEntries(response.headers),
+        },
       },
       null,
       4,
@@ -121,7 +143,7 @@ export function base64Encode(byteArray: ArrayBuffer): string {
 
   return encoded;
 }
-const welcome = includeBytes("./src/welcome.html");
+const welcome = includeBytes("src/welcome.html");
 async function fetchMiddleWare(
   request: Request,
   env: { address: string },
