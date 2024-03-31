@@ -182,7 +182,7 @@ async function handleGet(
   client: { address: string },
   url: URL,
   request: Request,
-) {
+): Promise<Response> {
   const upurl = new URL(`${
     await getDOH_ENDPOINT() ??
       "https://doh.pub/dns-query"
@@ -214,14 +214,26 @@ async function handleGet(
     ),
   );
   // Fetch response from origin server.
-  return await fetch(getRequest, {
-    backend: upurl.hostname,
-    // cf: {
-    //   cacheEverything: true,
-    // },
-  });
-}
 
+  if (url.searchParams.get("dns")?.length) {
+    return await fetch(getRequest, {
+      cacheOverride: new CacheOverride("none"),
+      backend: upurl.hostname,
+      // cf: {
+      //   cacheEverything: true,
+      // },
+    });
+  } else {
+    return await fetch(getRequest, {
+      cacheOverride: new CacheOverride("pass"),
+      backend: upurl.hostname,
+      // cf: {
+      //   cacheEverything: true,
+      // },
+    });
+  }
+}
+import { CacheOverride } from "fastly:cache-override";
 /**
  * 处理DNS请求的函数。
  * @param request 原始的请求对象，需要是一个POST请求，其中包含未编码的DNS查询。
