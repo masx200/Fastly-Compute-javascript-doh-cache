@@ -207,6 +207,7 @@ async function handleGet(
   );
   // Fetch response from origin server.
   return await fetch(getRequest, {
+    backend: upurl.hostname,
     // cf: {
     //   cacheEverything: true,
     // },
@@ -228,13 +229,13 @@ async function handleRequest(request: Request, client: { address: string }) {
   const encodedBody = base64Encode(body);
 
   // Create a request URL with encoded body as query parameter.
-  const url = new URL(`${
+  const upurl = new URL(`${
     await getDOH_ENDPOINT() ??
       "https://doh.pub/dns-query"
   }`);
-  url.searchParams.append("dns", encodedBody);
+  upurl.searchParams.append("dns", encodedBody);
 
-  if (!url.href.startsWith("https://")) {
+  if (!upurl.href.startsWith("https://")) {
     throw Error(`The DOH_ENDPOINT must be a HTTPS URL.`);
   }
   const headers = new Headers(request.headers);
@@ -245,7 +246,7 @@ async function handleRequest(request: Request, client: { address: string }) {
     };by=${new URL(request.url).hostname};for=${client.address}`,
   );
   // Create a GET request from the original POST request.
-  const getRequest = new Request(url.href, {
+  const getRequest = new Request(upurl.href, {
     method: "GET",
     body: null,
     headers: headers,
@@ -265,6 +266,7 @@ async function handleRequest(request: Request, client: { address: string }) {
   );
   // Fetch response from origin server.
   return await fetch(getRequest, {
+    backend: upurl.hostname,
     // cf: {
     //   cacheEverything: true,
     // },
