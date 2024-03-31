@@ -6,7 +6,7 @@ description = ""
 language = "javascript"
 manifest_version = 3
 name = "fastly-compute-javascript-doh-cache"
-service_id = "87FS0CBmiykQ0wxny70DZ2"
+service_id = "3miTPP19abwyCos7NGumS0"
 
 [scripts]
 build = "npm run build"
