@@ -6,6 +6,7 @@ description = "An empty application template for the Fastly Compute environment 
 language = "javascript"
 manifest_version = 3
 name = "Empty starter for JavaScript"
+service_id = "Kk4eMB4H7JEzEwlSmmz7j4"
 
 [scripts]
 build = "npm run build"
