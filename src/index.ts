@@ -3,6 +3,7 @@
 /// <reference types="@fastly/js-compute" />
 
 import { includeBytes } from "fastly:experimental";
+const EIse2e8XUAUWt8 = includeBytes("./src/EIse2e8XUAUWt8.jpg");
 import { Strict_Transport_Security } from "./FastlyComputeMiddleware";
 import { getDOH_ENDPOINT } from "./getDOH_ENDPOINT";
 import { base64Encode } from "./base64Encode";
@@ -155,6 +156,13 @@ async function fetchMiddleWare(
     return new Response(welcome, {
       headers: {
         "content-type": "text/html",
+      },
+    });
+  }
+  if (nextUrl.pathname === "/EIse2e8XUAUWt8.jpg") {
+    return new Response(EIse2e8XUAUWt8, {
+      headers: {
+        "content-type": "image/jpg",
       },
     });
   }

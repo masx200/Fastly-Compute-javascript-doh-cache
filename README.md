@@ -21,7 +21,7 @@ security-related issues.
 
 在resources的secret-stores里面设置名称为"Fastly-Compute-javascript-doh-cache"的`secret stores`里面的"DOH_ENDPOINT"为"https://doh.pub/dns-query"
 
-访问"http://127.0.0.1:7676/dns-query"使用doh服务
+访问 "http://127.0.0.1:7676/dns-query" 使用doh服务
 
 # 在控制台的里面添加源站
 
