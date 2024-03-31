@@ -1,5 +1,5 @@
-import { allowDynamicBackends } from "fastly:experimental";
-allowDynamicBackends(true);
+// import { allowDynamicBackends } from "fastly:experimental";
+// allowDynamicBackends(true);
 /// <reference types="@fastly/js-compute" />
 
 import { includeBytes } from "fastly:experimental";
