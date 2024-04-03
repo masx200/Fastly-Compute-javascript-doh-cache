@@ -9,7 +9,7 @@ import { Strict_Transport_Security } from "./FastlyComputeMiddleware";
 import { getDOH_ENDPOINT } from "./getDOH_ENDPOINT";
 const EIse2e8XUAUWt8 = includeBytes("./static/EIse2e8XUAUWt8.jpg");
 const a2Ft01a8850f4365c46ec1 = includeBytes(
-  "./static/pic.360.com_tools_image-editor_enlarge_subpage=tools_enlarge_20&src=exp2_tsupdate1&srcg=exp2_tsupdate1&url=https%3A%2F%2Fp1.ssl.qhimgs1.com%2Fsdr%2F400__%2Ft01a8850f4365c46ec1.jpg(1).png",
+  "./static/a8850f4365c46ec1.jpg.png",
 );
 
 // import * as cachecontrol from "@tusbar/cache-control";
@@ -158,7 +158,7 @@ async function fetchMiddleWare(
   const nextUrl = new URL(request.url);
   if (
     nextUrl.pathname ===
-      "/pic.360.com_tools_image-editor_enlarge_subpage=tools_enlarge_20&src=exp2_tsupdate1&srcg=exp2_tsupdate1&url=https%3A%2F%2Fp1.ssl.qhimgs1.com%2Fsdr%2F400__%2Ft01a8850f4365c46ec1.jpg(1).png"
+      "/a8850f4365c46ec1.jpg.png"
   ) {
     return new Response(a2Ft01a8850f4365c46ec1, {
       headers: {
