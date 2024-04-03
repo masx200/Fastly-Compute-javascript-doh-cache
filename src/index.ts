@@ -2,11 +2,12 @@
 // allowDynamicBackends(true);
 /// <reference types="@fastly/js-compute" />
 
+import { CacheOverride } from "fastly:cache-override";
 import { includeBytes } from "fastly:experimental";
-const EIse2e8XUAUWt8 = includeBytes("./src/EIse2e8XUAUWt8.jpg");
+import { base64Encode } from "./base64Encode";
 import { Strict_Transport_Security } from "./FastlyComputeMiddleware";
 import { getDOH_ENDPOINT } from "./getDOH_ENDPOINT";
-import { base64Encode } from "./base64Encode";
+const EIse2e8XUAUWt8 = includeBytes("./static/EIse2e8XUAUWt8.jpg");
 
 // import * as cachecontrol from "@tusbar/cache-control";
 // import { env } from "fastly:env";
@@ -132,7 +133,7 @@ export async function handlerLogger(
   );
   return response;
 }
-const welcome = includeBytes("src/welcome.html");
+const welcome = includeBytes("static/index.html");
 async function fetchMiddleWare(
   request: Request,
   env: { address: string },
@@ -234,7 +235,6 @@ async function handleGet(
     });
   }
 }
-import { CacheOverride } from "fastly:cache-override";
 /**
  * 处理DNS请求的函数。
  * @param request 原始的请求对象，需要是一个POST请求，其中包含未编码的DNS查询。
