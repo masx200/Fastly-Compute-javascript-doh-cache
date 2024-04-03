@@ -1,15 +1,14 @@
 {
   "dependencies": {
-    "@fastly/compute-js-static-publish": "^6.1.0",
     "@fastly/js-compute": "^3.2.0",
     "@tusbar/cache-control": "^0.6.0"
   },
   "name": "@masx200/fastly-compute-javascript-doh-cache",
   "scripts": {
     "dev": "fastly compute serve",
-    "prebuild": "tsc && npx @fastly/compute-js-static-publish@latest --public-dir=./static  --static-dir=./static --root-dir=./",
+    "prebuild": "tsc ",
     "build": "js-compute-runtime  ./build/index.js  ./bin/main.wasm",
-    "deploy": "cd ./compute-js && fastly compute publish  --debug-mode"
+    "deploy": " fastly compute publish  --debug-mode"
   },
   "type": "module",
   "devDependencies": {
