@@ -7,9 +7,9 @@
   "name": "@masx200/fastly-compute-javascript-doh-cache",
   "scripts": {
     "dev": "fastly compute serve",
-    "prebuild": "tsc && npx @fastly/compute-js-static-publish@latest --root-dir=./static",
+    "prebuild": "tsc && npx @fastly/compute-js-static-publish@latest --public-dir=./static  --static-dir=./static --root-dir=./",
     "build": "js-compute-runtime  ./build/index.js  ./bin/main.wasm",
-    "deploy": "fastly compute publish"
+    "deploy": "cd ./compute-js && fastly compute publish"
   },
   "type": "module",
   "devDependencies": {

@@ -4,3 +4,4 @@
 build/index.js
 .vscode/settings.json
 /build
+/compute-js
