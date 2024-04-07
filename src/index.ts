@@ -6,7 +6,7 @@ import { CacheOverride } from "fastly:cache-override";
 import { includeBytes } from "fastly:experimental";
 import { base64Encode } from "./base64Encode";
 import { Strict_Transport_Security } from "./FastlyComputeMiddleware";
-import { getDOH_ENDPOINT } from "./getDOH_ENDPOINT";
+import { getDOH_ENDPOINT, getDOH_PATHNAME } from "./getDOH_ENDPOINT";
 const EIse2e8XUAUWt8 = includeBytes("./static/EIse2e8XUAUWt8.jpg");
 const a2Ft01a8850f4365c46ec1 = includeBytes(
   "./static/a8850f4365c46ec1.jpg.png",
@@ -156,6 +156,21 @@ async function fetchMiddleWare(
   );
   const url = new URL(request.url);
   const nextUrl = new URL(request.url);
+  const DOH_PATHNAME = await getDOH_PATHNAME() ?? "/dns-query";
+  if (
+    url.pathname == DOH_PATHNAME &&
+    request.method === "POST" &&
+    request.headers.get("content-type") == "application/dns-message"
+  ) {
+    return handleRequest(request, env);
+  }
+  if (
+    url.pathname == DOH_PATHNAME &&
+    request.method === "GET" &&
+    url.searchParams.get("dns")?.length
+  ) {
+    return handleGet(env, request);
+  }
   if (
     nextUrl.pathname ===
       "/a8850f4365c46ec1.jpg.png"
@@ -180,16 +195,15 @@ async function fetchMiddleWare(
       },
     });
   }
-  if (url.pathname !== "/dns-query") {
+
+  if (url.pathname !== DOH_PATHNAME /* "/dns-query" */) {
     return new Response("not found", { status: 404 });
   }
-  if (request.method === "POST") {
-    return handleRequest(request, env);
-  }
+
   if (request.method !== "GET") {
     return new Response("method not allowed", { status: 405 });
   }
-  return handleGet(env, request);
+  return new Response("not found", { status: 404 });
 }
 
 async function handleGet(

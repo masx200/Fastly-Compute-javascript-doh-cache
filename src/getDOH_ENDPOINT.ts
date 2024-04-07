@@ -13,3 +13,16 @@ export async function getDOH_ENDPOINT(): Promise<
     return null;
   }
 }
+export async function getDOH_PATHNAME(): Promise<
+  string | null | undefined
+> {
+  try {
+    const secrets = new SecretStore("Fastly-Compute-javascript-doh-cache");
+
+    const catApiKey = await secrets.get("DOH_PATHNAME");
+    return catApiKey?.plaintext();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
